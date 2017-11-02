@@ -1,0 +1,33 @@
+{
+    "name": "asbsoft/yii2module-news_1b_160430",
+    "description": "Simple Yii2 news module",
+    "keywords": ["yii2"],
+    "type": "yii2-module",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Alexandr Belogolovsky",
+            "email": "ab2014box@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "yiisoft/yii2": "~2.0.10",
+        "yiisoft/yii2-jui": "*",
+
+        "kartik-v/yii2-widget-datepicker": "*",
+
+        "asbsoft/yii2-common_2_170212": "~2.05",
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/asbsoft/yii2-common_2_170212.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "asb\\modules\\news_1b_160430\\": ""
+        }
+    }
+}

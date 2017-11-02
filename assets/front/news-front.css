@@ -1,0 +1,42 @@
+
+.news-list {
+}
+
+.news-list-grid {
+}
+
+.news-list-items {
+    width: 100%;
+}
+
+tr.item {
+    vertical-align: top;
+}
+
+.item-image {
+    width: 60px;
+    text-align: center;
+}
+
+.item-image img.thumbnail {
+    height: 35px;
+    float: right;
+}
+
+td.item-time {
+    width: 10%;
+    font-size: 85%;
+    white-space: nowrap;
+}
+
+td.item-title {
+}
+
+
+.news-view {
+}
+
+.news-header-image {
+    float: left;
+    margin: 10px 15px 5px 0px;
+}
