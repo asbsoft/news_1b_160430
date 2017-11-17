@@ -33,10 +33,12 @@
     $assets = $this->context->module->registerAsset('AdminAsset', $this);//var_dump($assets);
 
     $this->title = Yii::t($this->context->tcModule, 'News');
-    $this->params['breadcrumbs'][] = [
-        'label' => Yii::t($this->context->tcModule, 'Admin startpage'),
-        'url' => ['/' . Yii::$app->params['adminPath']],
-    ];
+    if (!empty(Yii::$app->params['adminPath'])) {
+        $this->params['breadcrumbs'][] = [
+            'label' => Yii::t($this->context->tcModule, 'Admin startpage'),
+            'url' => ['/' . Yii::$app->params['adminPath']],
+        ];
+    }
     //$this->params['breadcrumbs'][] = $this->title;
     $this->params['breadcrumbs'][] = [
         'label' => Html::encode($this->title),

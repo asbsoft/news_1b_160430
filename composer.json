@@ -27,7 +27,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "asb\\modules\\news_1b_160430\\": ""
+            "asb\\yii2\\modules\\news_1b_160430\\": ""
         }
     }
 }
