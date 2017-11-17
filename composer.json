@@ -17,7 +17,7 @@
 
         "kartik-v/yii2-widget-datepicker": "*",
 
-        "asbsoft/yii2-common_2_170212": "~2.05",
+        "asbsoft/yii2-common_2_170212": "~2.07"
     },
     "repositories": [
         {
