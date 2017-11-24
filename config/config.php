@@ -72,7 +72,8 @@ return [
     ],
 
     // external using classes
-    'userIdentity'  => UserIdentity::className(),
+  //'userIdentity'  => UserIdentity::className(),
+    'userIdentity'  => Yii::$app->user->identityClass,
     'langHelper'    => LangHelper::className(),
     'contentHelper' => EditorContentHelper::className(),
 
