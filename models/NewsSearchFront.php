@@ -17,6 +17,8 @@ class NewsSearchFront extends News
     public $titleMinLength;
     public $bodyMinLength;
 
+    public static $unvisibleReason;
+
     /**
      * @inheritdoc
      */
@@ -63,7 +65,7 @@ class NewsSearchFront extends News
             return $dataProvider;
         }
 
-        // required cliterias
+        // required criterias
         $query->where(['is_visible' => true]);
 
         $tzShiftSec = intval(date('Z')); // server time zone shift in seconds: west UTC <0, east UTC >0
@@ -117,23 +119,36 @@ class NewsSearchFront extends News
      */
     public static function canShow($model, $modelI18n)
     {
-        if (empty($model) || empty($modelI18n)) return false;//var_dump($model->attributes);var_dump($modelI18n->attributes);
-
-        if (!$model->is_visible) return false;
-
-        if (empty($modelI18n->title) || empty($modelI18n->body)) return false;
-
-        if (mb_strlen($modelI18n->title, 'UTF-8') < $model->module->params['titleMinLength']) return false;
-        if (mb_strlen($modelI18n->body, 'UTF-8') < $model->module->params['bodyMinLength']) return false;
-
         $tzShiftSec = intval(date('Z')); // server time zone shift in seconds: west UTC <0, east UTC >0
         $serverUtcTime = time() - $tzShiftSec;//var_dump($serverUtcTime);
         //var_dump($model->unix_show_from_time);
-        if ($serverUtcTime < $model->unix_show_from_time) return false;
         //var_dump($model->unix_show_to_time);
-        if (!empty($model->unix_show_to_time) && $model->unix_show_to_time < $serverUtcTime) return false;
 
-        return $model;
+        $result = $model;
+        static::$unvisibleReason = false;
+        if (empty($model) || empty($modelI18n)) {//var_dump($model->attributes);var_dump($modelI18n->attributes);
+            static::$unvisibleReason = 'Empty model(s)';
+            $result = false;
+        } else if (!$model->is_visible) {
+            static::$unvisibleReason = 'Not visible';
+            $result = false;
+        } else if (empty($modelI18n->title) || empty($modelI18n->body)) {
+            static::$unvisibleReason = 'Empty title or body';
+            $result = false;
+        } else if (mb_strlen($modelI18n->title, 'UTF-8') < $model->module->params['titleMinLength']) {
+            static::$unvisibleReason = sprintf("Title too short: less then %d symbols", $model->module->params['titleMinLength']);
+            $result = false;
+        } else if (mb_strlen($modelI18n->body, 'UTF-8') < $model->module->params['bodyMinLength']) {
+            static::$unvisibleReason = sprintf("Body too short: less then %d symbols", $model->module->params['bodyMinLength']);
+            $result = false;
+        } else if ($serverUtcTime < $model->unix_show_from_time) {
+            static::$unvisibleReason = 'Show from time not begin';
+            $result = false;
+        } else if (!empty($model->unix_show_to_time) && $model->unix_show_to_time < $serverUtcTime) {
+            static::$unvisibleReason = 'Show time expired';
+            $result = false;
+        }//var_dump(static::$unvisibleReason);
+        return $result;
     }
 
 }
