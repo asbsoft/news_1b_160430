@@ -1,10 +1,9 @@
 <?php
-
-/* @var $model asb\yii2\modules\news_1b_160430\models\News */
-/* @var $modelsI18n array of asb\yii2\modules\news_1b_160430\models\NewsI18n */
-/* @var $activeTab string */
-/* @var $this yii\web\View */
-/* @var $form yii\widgets\ActiveForm */
+    /* @var $model asb\yii2\modules\news_1b_160430\models\News */
+    /* @var $modelsI18n array of asb\yii2\modules\news_1b_160430\models\NewsI18n */
+    /* @var $this yii\web\View */
+    /* @var $form yii\widgets\ActiveForm */
+    /* @var $activeTab string */
 
     use asb\yii2\common_2_170212\widgets\ckeditor\CkEditorWidget;
 
@@ -31,20 +30,20 @@
     $assetsSys = CommonAsset::register($this);
     $assetsFlag = FlagAsset::register($this);
     //$assets = AdminAsset::register($this); // to work inheritance use:
-    $assets = $this->context->module->registerAsset('AdminAsset', $this);//var_dump($assets);
+    $assets = $this->context->module->registerAsset('AdminAsset', $this);
 
     $langHelper = $this->context->module->langHelper;
     $editAllLanguages = empty($this->context->module->params['editAllLanguages'])
                       ? false : $this->context->module->params['editAllLanguages'];
-    $languages = $langHelper::activeLanguages($editAllLanguages);//var_dump($languages);
+    $languages = $langHelper::activeLanguages($editAllLanguages);
 
     $enableEditVisibility = (!Yii::$app->user->can('roleNewsModerator') && Yii::$app->user->can('roleNewsAuthor')) ? false : true;//var_dump($enableEditVisibility);
 
     $author = Yii::$app->user->identity->username;
     if (!empty($model->owner_id)) {
-        $user = Yii::$app->user->identity->findIdentity($model->owner_id);//var_dump($user);
+        $user = Yii::$app->user->identity->findIdentity($model->owner_id);
         if (!empty($user)) $author = $user->username;
-    }//var_dump($author);
+    }
 
     $editorOptions = [
         'height' => $heightEditor,
@@ -67,7 +66,7 @@
             'rootPath' => $this->context->module->params['uploadsNewsDir'] . '/' . $model::getImageSubdir($model->id),
             'filter' => 'image',
         ];
-    }//var_dump($managerOptions);exit;
+    }
 
 ?>
 <div class="news-form">
@@ -199,6 +198,8 @@
                 </li>
             <?php endforeach; ?>
         </ul>
+
+        <?php $this->startBlock('tab-content') ?>
         <div class="tab-content">
             <?php // multi-lang part - content
               foreach ($languages as $langCode => $lang):
@@ -234,6 +235,7 @@
             </div>
             <?php endforeach; ?>
         </div>
+        <?php $this->stopBlock('tab-content') ?>
     </div>
 
     <?php if (!empty($model->isNewRecord)): ?>
@@ -274,6 +276,5 @@
         jQuery('#save-and-view').bind('click', function() {
             jQuery('#aftersave').val('{$aftersave_view}');
         });
-    
     ");
 ?>

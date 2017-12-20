@@ -78,23 +78,37 @@ class MainController extends BaseMultilangController
         return $this->render('list', $this->renderData);
     }
 
-    public function actionView($id)
+    /**
+     * Render article's body.
+     * @param integer $id
+     * @param boolean $renderPartial if true ignore visibility and show without layout by call renderPartial()
+     */
+    public function actionView($id, $renderPartial = false)
     {
         $modelNews = $this->module->model('News');
-        $model = $modelNews::findOne($id);//var_dump($model);
+        $model = $modelNews::findOne($id);
 
         $modelI18n = false;
         if (!empty($model)) {
             $modelsI18n = $modelNews::prepareI18nModels($model);
-            $modelI18n = $modelsI18n[$this->langCodeMain];//var_dump($modelI18n);
+            $modelI18n = $modelsI18n[$this->langCodeMain];
         }
-        $model = NewsSearchFront::canShow($model, $modelI18n);//var_dump($model);exit;
+
+        if ($renderPartial) {
+            $model = NewsSearchFront::canShow($model, $modelI18n, $ignoreVisibility = true);
+        } else {
+            $model = NewsSearchFront::canShow($model, $modelI18n);
+        }
 
         $this->renderData = [
             'model' => $model,
             'modelI18n' => $modelI18n,
         ];
-        return $this->render('view', $this->renderData);
+        if ($renderPartial) {
+            return $this->renderPartial('view', $this->renderData);
+        } else {
+            return $this->render('view', $this->renderData);
+        }
     }
 
 }

@@ -14,6 +14,9 @@ use yii\db\ActiveQuery;
  */
 class NewsQuery extends ActiveQuery
 {
+    public $tableAliasMain = 'main';
+    public $tableAliasI18n = 'i18n';
+
     public $languages;
     public $langCodeMain;
 
@@ -41,9 +44,10 @@ class NewsQuery extends ActiveQuery
      */
     public function count($q = '*', $db = null)
     {
-        $this->alias('main')
-             ->leftJoin(['i18n' => NewsI18n::tableName()] //!! joined here, not in search model(s)
-                      , "main.id = i18n.news_id AND i18n.lang_code = '{$this->langCodeMain}'")
+        $this->alias($this->tableAliasMain)
+             ->leftJoin([$this->tableAliasI18n => NewsI18n::tableName()] //!! joined here, not in search model(s)
+                      , "{$this->tableAliasMain}.id = {$this->tableAliasI18n}.news_id"
+                        . " AND {$this->tableAliasI18n}.lang_code = '{$this->langCodeMain}'")
              ;
         return parent::count($q, $db);
     }
@@ -55,15 +59,16 @@ class NewsQuery extends ActiveQuery
     public function all($db = null)
     {
         $this
-            ->alias('main')
-            ->leftJoin(['i18n' => NewsI18n::tableName()] //!! joined here, not in search model(s)
-                , "main.id = i18n.news_id AND i18n.lang_code = '{$this->langCodeMain}'")
-              //, 'main.id = i18n.news_id')->where(['i18n.lang_code' => $this->langCodeMain])
+            ->alias($this->tableAliasMain)
+            ->leftJoin([$this->tableAliasI18n => NewsI18n::tableName()] //!! joined here, not in search model(s)
+                , "{$this->tableAliasMain}.id = {$this->tableAliasI18n}.news_id"
+                  . " AND {$this->tableAliasI18n}.lang_code = '{$this->langCodeMain}'")
+              //, "{$this->tableAliasMain}.id = {$this->tableAliasI18n}.news_id")->where(["{$this->tableAliasI18n}.lang_code" => $this->langCodeMain])
             ->select([
-                'main.*',
-                'UNIX_TIMESTAMP(main.show_from_time) AS unix_show_from_time',
-                'i18n.title AS title',
-                'i18n.body AS body',
+                "{$this->tableAliasMain}.*",
+                "UNIX_TIMESTAMP({$this->tableAliasMain}.show_from_time) AS unix_show_from_time",
+                "{$this->tableAliasI18n}.title AS title",
+                "{$this->tableAliasI18n}.body AS body",
             ]);//list ($sql, $parms) = Yii::$app->db->getQueryBuilder()->build($this);var_dump($sql);var_dump($parms);
         return parent::all($db);
     }
@@ -74,10 +79,10 @@ class NewsQuery extends ActiveQuery
      */
     public function one($db = null)
     {
-        $this->alias('main')->select([
-            'main.*',
-            'UNIX_TIMESTAMP(main.show_from_time) AS unix_show_from_time',
-            'UNIX_TIMESTAMP(main.show_to_time) AS unix_show_to_time',
+        $this->alias($this->tableAliasMain)->select([
+            "{$this->tableAliasMain}.*",
+            "UNIX_TIMESTAMP({$this->tableAliasMain}.show_from_time) AS unix_show_from_time",
+            "UNIX_TIMESTAMP({$this->tableAliasMain}.show_to_time) AS unix_show_to_time",
         ]);//list ($sql, $parms) = Yii::$app->db->getQueryBuilder()->build($this);var_dump($sql);var_dump($parms);
         return parent::one($db);
     }

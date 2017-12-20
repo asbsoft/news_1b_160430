@@ -115,9 +115,10 @@ class NewsSearchFront extends News
      * Check if record representing this model can show: visibility, time, etc.
      * @param News $model
      * @param NewsI18n $modelI18n
+     * @param boolean $ignoreVisibility 
      * @return $model|false
      */
-    public static function canShow($model, $modelI18n)
+    public static function canShow($model, $modelI18n, $ignoreVisibility = false)
     {
         $tzShiftSec = intval(date('Z')); // server time zone shift in seconds: west UTC <0, east UTC >0
         $serverUtcTime = time() - $tzShiftSec;//var_dump($serverUtcTime);
@@ -128,9 +129,6 @@ class NewsSearchFront extends News
         static::$unvisibleReason = false;
         if (empty($model) || empty($modelI18n)) {//var_dump($model->attributes);var_dump($modelI18n->attributes);
             static::$unvisibleReason = 'Empty model(s)';
-            $result = false;
-        } else if (!$model->is_visible) {
-            static::$unvisibleReason = 'Not visible';
             $result = false;
         } else if (empty($modelI18n->title) || empty($modelI18n->body)) {
             static::$unvisibleReason = 'Empty title or body';
@@ -147,6 +145,11 @@ class NewsSearchFront extends News
         } else if (!empty($model->unix_show_to_time) && $model->unix_show_to_time < $serverUtcTime) {
             static::$unvisibleReason = 'Show time expired';
             $result = false;
+        } else if (!$model->is_visible) {
+            static::$unvisibleReason = 'Not visible';
+            if (!$ignoreVisibility) {
+                $result = false;
+            }
         }//var_dump(static::$unvisibleReason);
         return $result;
     }

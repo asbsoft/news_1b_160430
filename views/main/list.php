@@ -1,9 +1,6 @@
 <?php
+/* @var $this asb\yii2\common_2_170212\web\UniView */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $this yii\web\View */
-
-    //use asb\yii2\modules\news_1b_160430\models\Formatter;
-    //use asb\yii2\modules\news_1b_160430\assets\FrontAsset;
 
     use yii\helpers\Html;
     use yii\helpers\Url;
@@ -13,8 +10,7 @@
     $gridHtmlClass = 'news-list-grid';
     $gridTableClass = 'news-list-items';
 
-    //$assets = FrontAsset::register($this);
-    $assets = $this->context->module->registerAsset('FrontAsset', $this);//var_dump($assets);
+    $assets = $this->context->module->registerAsset('FrontAsset', $this);
 
     $this->title = Yii::t($this->context->tc, 'News');
     //$this->params['breadcrumbs'][] = $this->title;
@@ -24,16 +20,17 @@
     ];
 
     //$page = $dataProvider->pagination->page + 1;var_dump($page);
-    //var_dump($dataProvider->pagination->totalCount);
-    //var_dump($dataProvider->models);
-    //var_dump($this->context->tc);
-    //var_dump(get_object_vars($this->context));
 
 ?>
+<?php $this->startBlock('before-page') ?>
+<?php $this->stopBlock('before-page') ?>
 <div class="news-list">
 
-    <h1><a href="<?= Url::to(['list']) ?>"><?= Html::encode($this->title) ?></a></h1>
+    <?php $this->startBlock('title') ?>
+        <h1><a href="<?= Url::to(['list']) ?>"><?= Html::encode($this->title) ?></a></h1>
+    <?php $this->stopBlock('title') ?>
 
+    <?php $this->startBlock('list-view') ?>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'id' => $listViewId,
@@ -52,9 +49,10 @@
         },
 
     ]); ?>
+    <?php $this->stopBlock('list-view') ?>
 
 </div>
-
+<?php $this->startBlock('after-page') ?>
 <?php
     // show news date-time according to client time zone from news UTC-time
     $this->registerJs("
@@ -66,3 +64,4 @@
     ");
 
 ?>
+<?php $this->stopBlock('after-page') ?>

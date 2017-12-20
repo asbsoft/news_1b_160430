@@ -108,6 +108,11 @@ class NewsSearch extends News
                 , $this->show_to_time_end ? $this->show_to_time_end . ' 23:59:59' : null])
             ;
 
+        $dataProvider->sort->attributes['title'] = [
+            'asc'  => ['title' => SORT_ASC],
+            'desc' => ['title' => SORT_DESC],
+        ];
+
         if (empty($params['sort'])) {
             //$query->orderBy(['show_from_time' => SORT_DESC]); // default order
             $query->orderBy($this->defaultOrderBy);

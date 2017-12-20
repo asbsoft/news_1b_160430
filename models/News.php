@@ -127,6 +127,7 @@ class News extends DataModel //BaseDataModel
             'show_to_time' => Yii::t($this->tcModule, 'Show to time'),
             'create_time' => Yii::t($this->tcModule, 'Create time'),
             'update_time' => Yii::t($this->tcModule, 'Update time'),
+            'title' => Yii::t($this->tcModule, 'Title'),
         ];
     }
 

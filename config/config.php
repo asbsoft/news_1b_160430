@@ -31,13 +31,13 @@ $type = empty(Yii::$app->type) ? false : Yii::$app->type;//var_dump($type);exit;
 
 return [
     //'params' => include(__DIR__ . '/params.php'),
-
+/*
     //'layoutPath' => '@asb/yii2cms/modules/sys/views/layouts',
     'layouts' => [ // (module/application) type => basename
         'frontend' => 'layout_main',
         'backend'  => 'layout_admin',
     ],
-
+*/
     'routesConfig' => [ // default: type => prefix|[config]
         'main'  => $type == UniApplication::APP_TYPE_BACKEND  ? false : [
             'urlPrefix' => 'news',

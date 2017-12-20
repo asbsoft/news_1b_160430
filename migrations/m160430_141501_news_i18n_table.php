@@ -5,7 +5,6 @@ use asb\yii2\modules\news_1b_160430\models\NewsI18n;
 
 use yii\db\Schema;
 use yii\db\Migration;
-use yii\db\Expression;
 
 /**
  * @author ASB <ab2014box@gmail.com>

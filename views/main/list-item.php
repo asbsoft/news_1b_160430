@@ -15,7 +15,6 @@
     $assets = $this->context->module->registerAsset('FrontAsset', $this);//var_dump($assets);
 
 //$page = $dataProvider->pagination->page + 1;var_dump($page);
-
 ?>
 
    <td class="item-image">
