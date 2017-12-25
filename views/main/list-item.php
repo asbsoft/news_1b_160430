@@ -41,6 +41,6 @@
               , ['view', 'id' => $model->id
                   //, 'page' => $page
                 ]
-              , ['title' => $model->title]
+              , ['title' => Html::encode($model->title)]
             ); ?>
    </td>

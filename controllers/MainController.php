@@ -58,7 +58,7 @@ class MainController extends BaseMultilangController
     public function actionList($page = 1)
     {
         $params = $this->prepateListSearchParams();//var_dump($params);
-        $searchModel = new NewsSearchFront();
+        $searchModel = $this->module->getDataModel('NewsSearchFront');
         $dataProvider = $searchModel->search($params);
 
         $pager = $dataProvider->getPagination();
