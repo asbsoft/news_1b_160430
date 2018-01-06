@@ -4,6 +4,7 @@ return [
     'News manager'      => 'Менеджер новостей',
     'News'              => 'Новости',
     'Admin startpage'   => 'Админ стартовая',
+    'Adminer'           => 'Админка',
 
     "Moderator can't create news"
                         => 'Модератор не может создавать новости',

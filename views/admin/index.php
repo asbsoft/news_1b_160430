@@ -32,16 +32,17 @@
     $assetsSys = CommonAsset::register($this);
     $assets = $this->context->module->registerAsset('AdminAsset', $this);//$assets = AdminAsset::register($this);
 
-    $this->title = Yii::t($tc, 'News');
+    $title = Yii::t($tc, 'News');
+    $this->title = Yii::t($tc, 'Adminer') . ' - ' . $title;
+
     if (!empty(Yii::$app->params['adminPath'])) {
         $this->params['breadcrumbs'][] = [
             'label' => Yii::t($tc, 'Admin startpage'),
             'url' => ['/' . Yii::$app->params['adminPath']],
         ];
     }
-    //$this->params['breadcrumbs'][] = $this->title;
     $this->params['breadcrumbs'][] = [
-        'label' => Html::encode($this->title),
+        'label' => Html::encode($title),
         'url' => Url::to(['index']),
     ];
 
@@ -109,7 +110,7 @@
 <?php $this->stopBlock('beforePage') ?>
 <div class="news-index">
 
-    <h1><a href="<?= Url::to(['index']) ?>"><?= Html::encode($this->title) ?></a></h1>
+    <h1><a href="<?= Url::to(['index']) ?>"><?= Html::encode($title) ?></a></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= Alert::widget(); ?>
