@@ -13,7 +13,12 @@
 
     $assets = $this->context->module->registerAsset('FrontAsset', $this); // instead of $assets = FrontAsset::register($this);
 
-    if (empty($modelI18n)) $model = false;
+    if (empty($modelI18n)) {
+        $model = false;
+        $this->title = Yii::t($this->context->tc, 'Such news not found') . ' - ' . Yii::t($this->context->tc, 'News');
+    } else {
+        $this->title = $modelI18n->title . ' - ' . Yii::t($this->context->tc, 'News');
+    }
 
 ?>
 <div class="news-view">
