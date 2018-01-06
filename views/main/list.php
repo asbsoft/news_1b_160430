@@ -12,8 +12,7 @@
 
     $assets = $this->context->module->registerAsset('FrontAsset', $this);
 
-    $this->title = Yii::t($this->context->tc, 'News');
-    //$this->params['breadcrumbs'][] = $this->title;
+    if (empty($this->title)) $this->title = Yii::t($this->context->tc, 'News');
     $this->params['breadcrumbs'][] = [
         'label' => Html::encode($this->title),
         'url' => Url::to(['index']),
