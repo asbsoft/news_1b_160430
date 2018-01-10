@@ -20,7 +20,7 @@ class FrontAsset extends AssetBundle
     public $jsOptions = ['position' => View::POS_BEGIN];
 
     public $depends = [
-        'asb\yii2\common_2_170212\assets\BootstrapCssAsset', // add only CSS - need to move up 'bootstrap.css' in <head>s of render HTML-results
+        'yii\bootstrap\BootstrapAsset', // add only CSS - need to move up 'bootstrap.css' in <head>s of render HTML-results
     ];
 
     public function init() {
