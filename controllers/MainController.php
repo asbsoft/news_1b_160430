@@ -51,31 +51,28 @@ class MainController extends BaseMultilangController
         }
         if (!empty($this->module->params['bodyMinLength'])) {
             $params[$groupName]['bodyMinLength'] = $this->module->params['bodyMinLength' ];
-        }//var_dump($params);
+        }
         return $params;
     }
 
     public function actionList($page = 1)
     {
-        $params = $this->prepateListSearchParams();//var_dump($params);
+        $params = $this->prepateListSearchParams();
         $searchModel = $this->module->getDataModel('NewsSearchFront');
         $dataProvider = $searchModel->search($params);
 
         $pager = $dataProvider->getPagination();
         $pager->pageSize = $this->module->params['pageSizeFront'];
-        $pager->totalCount = $dataProvider->getTotalCount();//var_dump($pager->totalCount);exit;
+        $pager->totalCount = $dataProvider->getTotalCount();
 
         // page number correction:
         if ($pager->totalCount <= $pager->pageSize || $page > ceil($pager->totalCount / $pager->pageSize) ) {
             $pager->page = 0; //goto 1st page if shortage records
         } else {
             $pager->page = $page - 1; //! from 0
-        }//var_dump($page);var_dump($pager->page);
+        }
 
-        $this->renderData = [
-            'dataProvider' => $dataProvider,
-        ];
-        return $this->render('list', $this->renderData);
+        return $this->render('list', compact('dataProvider'));
     }
 
     /**
@@ -94,20 +91,20 @@ class MainController extends BaseMultilangController
             $modelI18n = $modelsI18n[$this->langCodeMain];
         }
 
+        $searchModel = $this->module->model('NewsSearchFront');
         if ($renderPartial) {
-            $model = NewsSearchFront::canShow($model, $modelI18n, $ignoreVisibility = true);
+            $model = $searchModel::canShow($model, $modelI18n, $ignoreVisibility = true);
         } else {
-            $model = NewsSearchFront::canShow($model, $modelI18n);
+            $model = $searchModel::canShow($model, $modelI18n);
+        }
+        if (!$model) {
+            $modelI18n = false;
         }
 
-        $this->renderData = [
-            'model' => $model,
-            'modelI18n' => $modelI18n,
-        ];
         if ($renderPartial) {
-            return $this->renderPartial('view', $this->renderData);
+            return $this->renderPartial('view', compact('model', 'modelI18n'));
         } else {
-            return $this->render('view', $this->renderData);
+            return $this->render('view', compact('model', 'modelI18n'));
         }
     }
 
