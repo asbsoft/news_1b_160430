@@ -13,7 +13,7 @@ Module use visual editor for create news text with images etc.
 Module use 'roleNewsAuthor' and 'roleNewsModerator' in addition to standard 'roleAdmin'.
 Author can create and update own news but can't delete and set news visible on frontend.
 Moderator can't create but can edit, delete and change visibility of every news.
-Module's roles contant module's name (roleNEWSauthor) to avoid conflicts with another content-modules.
+Modules' roles contant module's name (roleNEWSauthor) to avoid conflicts with another content-modules.
 
 Features
 --------
