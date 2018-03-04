@@ -3,6 +3,9 @@
 use asb\yii2\modules\news_1b_160430\models\News;
 use asb\yii2\modules\news_1b_160430\models\NewsI18n;
 
+use asb\yii2\common_2_170212\behaviors\ParamsAccessBehaviour;
+
+
 $filesSubpath = 'news';
 //$uploadsRoot = 'uploads/news';
 //var_dump(Yii::$aliases);exit;
@@ -18,6 +21,19 @@ return [
     'uploadsNewsDir'      => "@uploadspath/{$filesSubpath}",
     'uploadsNewsUrl'      => "@webfilesurl/{$filesSubpath}",
     'uploadsCommonSubdir' => 'common',
+
+    'behaviors' => [
+        'params-access' => [
+            'class' => ParamsAccessBehaviour::className(),
+            'defaultRole' => 'roleAdmin',
+            'readonlyParams' => [
+                 'filesSubpath',
+                 'uploadsNewsDir',
+                 'uploadsNewsUrl',
+                 'uploadsCommonSubdir',
+            ],
+        ],
+    ],
 
     'maxImageSize' => 102400, //bytes
 
